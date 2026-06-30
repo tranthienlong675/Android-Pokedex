@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.pokedex.components.PokedexEntryCard
-import com.example.pokedex.model.PokedexEntry
 import com.example.pokedex.model.pokedex.PokemonSpecies
 import com.example.pokedex.ui.state.PokedexUiState
 

@@ -27,7 +27,6 @@ import coil3.request.ImageRequest
 import coil3.request.SuccessResult
 import coil3.request.allowHardware
 import com.example.pokedex.client.PokeApi
-import com.example.pokedex.model.PokedexEntry
 import com.example.pokedex.model.pokedex.PokemonSpecies
 
 @Composable
