@@ -21,10 +21,13 @@ class PokemonDetailViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val pokemon = repository.getDetail(name)
+                val varieties = repository.getSpecies(name)
+                val pokemonForms = varieties.map {
+                    repository.getDetail(it.pokemon.name)
+                }
                 _uiState.update {
                     it.copy(
-                        pokemon = pokemon,
+                        pokemonForms = pokemonForms,
                         isLoading = false
                     )
                 }

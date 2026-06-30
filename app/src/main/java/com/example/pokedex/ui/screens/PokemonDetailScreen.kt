@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -20,10 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,9 +30,6 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.pokedex.client.PokeApi
 import com.example.pokedex.components.StatBar
-import com.example.pokedex.model.Pokemon
-import com.example.pokedex.model.TypeInfo
-import com.example.pokedex.model.TypeSlot
 import com.example.pokedex.ui.state.PokemonDetailUiState
 import com.example.pokedex.utils.getColorByType
 
@@ -43,119 +38,128 @@ fun PokemonDetailScreen(
     modifier: Modifier = Modifier,
     state: PokemonDetailUiState,
 ) {
-    var totalStats = 0
-    Column(
+    LazyColumn(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth(),
+
+        verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (state.pokemon != null) {
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = state.backgroundColor
-                ),
-                modifier = Modifier.fillMaxWidth().height(240.dp),
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.BottomCenter
+        if (!state.pokemonForms.isEmpty()) {
+            items(state.pokemonForms) {
+                var totalStats = 0
+
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = state.backgroundColor
+                    ),
+                    modifier = Modifier.fillMaxWidth().height(240.dp),
                 ) {
-                    AsyncImage(
-                        model = "${PokeApi.OFFICIAL_ARTWORK_URL}/${state.pokemon.id}.png",
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxWidth().height(210.dp)
-                    )
-                }
-            }
-            Text(
-                text = state.pokemon.name(),
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
-            ) {
-                state.pokemon.getType().forEach {
-                    Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        horizontalArrangement = Arrangement.Center
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
                     ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
+                        AsyncImage(
+                            model = "${PokeApi.OFFICIAL_ARTWORK_URL}/${it.id}.png",
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth().height(210.dp)
+                        )
+                    }
+                }
+                Text(
+                    text = it.name(),
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                ) {
+                    it.getType().forEach {
+                        Row(
                             modifier = Modifier
-                                .background(getColorByType(it), shape = RoundedCornerShape(24))
-                                .padding(vertical = 4.dp)
-                                .width(88.dp)
+                                .weight(1f)
+                                .padding(horizontal = 8.dp, vertical = 4.dp),
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(
-                                text = it.uppercase(),
-                                textAlign = TextAlign.Center,
-                                color = Color.White,
-                            )
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .background(getColorByType(it), shape = RoundedCornerShape(24))
+                                    .padding(vertical = 4.dp)
+                                    .width(88.dp)
+                            ) {
+                                Text(
+                                    text = it.uppercase(),
+                                    textAlign = TextAlign.Center,
+                                    color = Color.White,
+                                )
+                            }
                         }
                     }
                 }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
                 ) {
-                    Text(
-                        text = "%.1f KG".format(state.pokemon.weight * 0.1),
-                        fontSize = 24.sp
-                    )
-                    Text(
-                        text = "Weight",
-                        color = Color(0xFFADADAD)
-                    )
+                    Column(
+                        modifier = Modifier
+                            .weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "%.1f KG".format(it.weight * 0.1),
+                            fontSize = 24.sp
+                        )
+                        Text(
+                            text = "Weight",
+                            color = Color(0xFFADADAD)
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "%.1f M".format(it.height * 0.1),
+                            fontSize = 24.sp
+                        )
+                        Text(
+                            text = "Height",
+                            color = Color(0xFFADADAD)
+                        )
+                    }
                 }
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "%.1f M".format(state.pokemon.height * 0.1),
-                        fontSize = 24.sp
-                    )
-                    Text(
-                        text = "Height",
-                        color = Color(0xFFADADAD)
-                    )
-                }
-            }
 
-            Text(
-                text = "Base Stats",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 24.dp)
-            )
-
-            state.pokemon.stats.forEach {
-                StatBar(
-                    it.stat.name,
-                    it.base_stat
+                Text(
+                    text = "Base Stats",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 24.dp)
                 )
-                totalStats += it.base_stat
+
+                it.stats.forEach {
+                    StatBar(
+                        it.stat.name,
+                        it.base_stat
+                    )
+                    totalStats += it.base_stat
+                }
+                StatBar(
+                    "total",
+                    totalStats
+                )
             }
-            StatBar(
-                "total",
-                totalStats
-            )
         } else {
-            Text("Fail to load detail information.")
+            item {
+                Text("Fail to load detail information.")
+            }
         }
         if (state.isLoading) {
-            Text(text = "Loading...")
+            item {
+                Text(text = "Loading...")
+            }
         }
     }
 }

@@ -4,14 +4,11 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,9 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
 import coil3.asDrawable
 import coil3.compose.AsyncImage
@@ -31,16 +26,14 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.SuccessResult
 import coil3.request.allowHardware
-import com.example.pokedex.PokemonDetailViewModel
 import com.example.pokedex.client.PokeApi
 import com.example.pokedex.model.PokedexEntry
-import org.koin.androidx.compose.koinViewModel
+import com.example.pokedex.model.pokedex.PokemonSpecies
 
 @Composable
 fun PokedexEntryCard(
-    pokedexEntry: PokedexEntry,
-    onClick: (PokedexEntry, Color) -> Unit,
-    pokemonDetailVM: PokemonDetailViewModel = koinViewModel()
+    pokemonSpecies: PokemonSpecies,
+    onClick: (PokemonSpecies, Color) -> Unit,
 ) {
     val context = LocalContext.current
     val imageLoader = context.imageLoader
@@ -48,8 +41,8 @@ fun PokedexEntryCard(
     var dominantColor by remember { mutableStateOf(Color.Gray) }
 
     val imageUrl =
-        "${PokeApi.OFFICIAL_ARTWORK_URL}/${pokedexEntry.index}.png"
-    val pokemonState by pokemonDetailVM.uiState.collectAsState()
+        "${PokeApi.OFFICIAL_ARTWORK_URL}/${pokemonSpecies.index}.png"
+
     LaunchedEffect(imageUrl) {
         val request = ImageRequest.Builder(context)
             .data(imageUrl)
@@ -86,7 +79,7 @@ fun PokedexEntryCard(
         modifier = Modifier.clickable(
             enabled = true,
             onClick = {
-                onClick(pokedexEntry, dominantColor)
+                onClick(pokemonSpecies, dominantColor)
             }
         )
     ) {
@@ -99,7 +92,7 @@ fun PokedexEntryCard(
                 contentDescription = null,
             )
             Text(
-                text = pokedexEntry.name(),
+                text = pokemonSpecies.name(),
                 color = textColor
             )
         }

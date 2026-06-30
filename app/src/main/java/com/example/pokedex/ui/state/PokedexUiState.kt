@@ -1,11 +1,10 @@
 package com.example.pokedex.ui.state
 
-import com.example.pokedex.model.PokedexEntry
+import com.example.pokedex.model.pokedex.PokemonEntry
 
 data class PokedexUiState(
-    val pokemons: List<PokedexEntry> = emptyList(),
+    val pokemons: List<PokemonEntry> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
-    val page: Int = 0,
-    val endReached: Boolean = false
+    val endReached: Boolean = false,
+    val error: String? = null
 )

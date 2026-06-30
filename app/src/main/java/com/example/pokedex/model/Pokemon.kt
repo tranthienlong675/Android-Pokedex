@@ -11,7 +11,9 @@ data class Pokemon(
     val height: Int,
     val stats: List<StatSlot>
 ) {
-    fun name(): String = name.replaceFirstChar { it.uppercase() }
+    fun name(): String = name
+        .replaceFirstChar { it.uppercase() }
+        .replace('-', ' ')
     fun getType(): List<String> {
         return types.map { it.type.name }
     }

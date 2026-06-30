@@ -6,6 +6,7 @@ object PokeApi {
     const val POKEMON = "$BASE_URL/pokemon"
     const val POKEMON_SPECIES = "$BASE_URL/pokemon-species"
     const val POKEDEX = "$BASE_URL/pokedex"
+    const val NATIONAL_POKEDEX = "$POKEDEX/1"
 
     const val OFFICIAL_ARTWORK_URL =
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork"
