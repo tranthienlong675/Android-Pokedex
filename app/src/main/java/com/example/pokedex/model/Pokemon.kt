@@ -14,6 +14,9 @@ data class Pokemon(
     fun name(): String = name
         .replaceFirstChar { it.uppercase() }
         .replace('-', ' ')
+        .split(" ").joinToString(" ") { word ->
+            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        }
     fun getType(): List<String> {
         return types.map { it.type.name }
     }

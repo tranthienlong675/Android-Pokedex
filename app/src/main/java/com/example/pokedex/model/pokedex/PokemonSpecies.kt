@@ -12,5 +12,10 @@ data class PokemonSpecies(
             .split("/")
             .last()
             .toInt()
-    fun name(): String = name.replaceFirstChar { it.uppercase() }
+    fun name(): String = name
+        .replaceFirstChar { it.uppercase() }
+        .replace('-', ' ')
+        .split(" ").joinToString(" ") { word ->
+            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        }
 }
