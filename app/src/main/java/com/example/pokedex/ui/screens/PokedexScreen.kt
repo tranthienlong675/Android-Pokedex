@@ -19,7 +19,7 @@ import com.example.pokedex.ui.state.PokedexUiState
 fun PokedexScreen(
     modifier: Modifier = Modifier,
     state: PokedexUiState,
-    onCLickExpr: (String) -> Unit,
+    onCLick: (String) -> Unit,
     onListStateReachEnd: () -> Unit
 ) {
     val listState = rememberLazyGridState()
@@ -34,7 +34,7 @@ fun PokedexScreen(
     ) {
         items(state.pokemons.size) { index ->
             val pokemon = state.pokemons[index]
-            PokedexEntryCard(pokemon.pokemon_species.name(), pokemon.pokemon_species.index, onCLickExpr)
+            PokedexEntryCard(pokemon.pokemon_species.name(), pokemon.pokemon_species.index, onCLick)
         }
         if (state.isLoading) {
             item {

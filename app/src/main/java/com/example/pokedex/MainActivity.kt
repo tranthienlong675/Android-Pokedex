@@ -74,7 +74,7 @@ fun App(
     ) {
         composable(route = ScreenNavigation.Main.name) {
             PokedexScreen(modifier = modifier, state = pokedexState,
-                onCLickExpr = { name ->
+                onCLick = { name ->
                     pokemonDetailVM.loadPokemon(name)
                     navController.navigate(ScreenNavigation.Detail.name)
                 },
