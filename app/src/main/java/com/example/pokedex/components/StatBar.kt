@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -71,7 +72,7 @@ fun StatBar(
                         .height(12.dp)
                         .weight(percent)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(color = Color(0xFF6650a4))
+                        .background(color = getColorByStat(baseStat))
             )
 
             Box(
@@ -80,8 +81,19 @@ fun StatBar(
                 } else {
                     Modifier
                 }
-            ) { }
+            )
         }
+    }
+}
+
+fun getColorByStat(baseStat: Int): Color {
+    return when {
+        baseStat < 30 -> Color(0xFFf34444)
+        baseStat < 60 -> Color(0xFFff7f0f)
+        baseStat < 90 -> Color(0xFFffdd57)
+        baseStat < 120 -> Color(0xFFa0e515)
+        baseStat < 150 -> Color(0xFF23cd5e)
+        else -> Color(0xFF00c2b8)
     }
 }
 
