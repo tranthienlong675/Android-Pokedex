@@ -36,9 +36,4 @@ class PokemonDetailViewModel(
             }
         }
     }
-    fun setBackgroundColor(color: Color) {
-        _uiState.update {
-            it.copy(backgroundColor = color)
-        }
-    }
 }

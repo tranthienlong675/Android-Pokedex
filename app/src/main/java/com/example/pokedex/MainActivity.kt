@@ -74,9 +74,8 @@ fun App(
     ) {
         composable(route = ScreenNavigation.Main.name) {
             PokedexScreen(modifier = modifier, state = pokedexState,
-                onClick = { pokemon, color ->
-                    pokemonDetailVM.setBackgroundColor(color)
-                    pokemonDetailVM.loadPokemon(pokemon.name)
+                onCLickExpr = { name ->
+                    pokemonDetailVM.loadPokemon(name)
                     navController.navigate(ScreenNavigation.Detail.name)
                 },
                 onListStateReachEnd = { pokedexVM.loadNextPage() }

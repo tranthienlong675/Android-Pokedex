@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.pokedex.client.PokeApi
+import com.example.pokedex.components.PokemonCard
 import com.example.pokedex.components.StatBar
+import com.example.pokedex.model.Pokemon
 import com.example.pokedex.ui.state.PokemonDetailUiState
 import com.example.pokedex.utils.getColorByType
 
@@ -50,11 +52,9 @@ fun PokemonDetailScreen(
             items(state.pokemonForms) {
                 var totalStats = 0
 
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = state.backgroundColor
-                    ),
+                PokemonCard(
                     modifier = Modifier.fillMaxWidth().height(240.dp),
+                    index = it.id
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -67,6 +67,7 @@ fun PokemonDetailScreen(
                         )
                     }
                 }
+
                 Text(
                     text = it.name(),
                     fontSize = 36.sp,
@@ -163,6 +164,14 @@ fun PokemonDetailScreen(
         }
     }
 }
+
+//@Composable
+//fun PokemonDetail(
+//    modifier: Modifier = Modifier,
+//    pokemon: Pokemon
+//) {
+//
+//}
 
 @Preview(showSystemUi = true)
 @Composable

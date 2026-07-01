@@ -11,17 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.pokedex.components.PokedexEntryCard
-import com.example.pokedex.model.pokedex.PokemonSpecies
 import com.example.pokedex.ui.state.PokedexUiState
 
 @Composable
 fun PokedexScreen(
     modifier: Modifier = Modifier,
     state: PokedexUiState,
-    onClick: (PokemonSpecies, Color) -> Unit,
+    onCLickExpr: (String) -> Unit,
     onListStateReachEnd: () -> Unit
 ) {
     val listState = rememberLazyGridState()
@@ -36,7 +34,7 @@ fun PokedexScreen(
     ) {
         items(state.pokemons.size) { index ->
             val pokemon = state.pokemons[index]
-            PokedexEntryCard(pokemon.pokemon_species, onClick)
+            PokedexEntryCard(pokemon.pokemon_species.name(), pokemon.pokemon_species.index, onCLickExpr)
         }
         if (state.isLoading) {
             item {
@@ -51,7 +49,7 @@ fun PokedexScreen(
             val total = listState.layoutInfo.totalItemsCount
 
             if (lastVisible != null &&
-                lastVisible >= total - 6
+                lastVisible >= total - 3
             ) {
                 onListStateReachEnd()
             }
